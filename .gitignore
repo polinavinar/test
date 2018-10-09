@@ -1,14 +1,7 @@
 *.suo
 *.db
 *.ipch
-*.exe
-*.ilk
-*.pdb
-*.log
-*.tlog
+Debug/
 *.lastbuildstate
-*.obj
-*.idb
-*.pdb
 
 
