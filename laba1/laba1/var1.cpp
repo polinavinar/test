@@ -112,7 +112,7 @@ int main() {
 			fout.open(path, ofstream::out);
 			if (!fout.is_open())
 			{
-				cout << "Ошибка открытия файла!" << endl;
+				cout << "Ошибка открытия файла !" << endl;
 			}
 			else
 			{
