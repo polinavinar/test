@@ -1,5 +1,6 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include <stdlib.h>
 #include <cstring>
@@ -11,8 +12,10 @@ private:
 	char number[10];
 	char type[30];
 public:
-	aeroflot() { name[0] = '\0'; number[0] = '\0'; type[0] = '\0'; }
 
+	void Print() {
+		cout << name << "\t" << number << "\t" << type << "\n\n";
+	}
 	void set_name(char *_name) {
 		strcpy(name, _name);
 	}
@@ -37,100 +40,139 @@ public:
 	{
 		return strcmp(((aeroflot*)a)->number, ((aeroflot*)b)->number);
 	}
-}A[10];
+};
+
+void to_low(char mas[]) {
+	int x = 0;
+	char b, sumbol;
+	while (mas[x]) {
+		sumbol = mas[x]; //выдеделяём символ
+		b = (char)tolower(sumbol); //функция перевода регистров, из заглавной буквы в строчную
+		mas[x] = b; //выделенному символу присваем строчный вид
+		x++;
+	}
+}
 
 int main() {
 	setlocale(LC_ALL, "Russian");
+	string path = "File.txt";
 	char type[30];
+	char a[30];
+	aeroflot *A = new aeroflot[10];
 	int i = 0;
 	int kol = 0;
 	int n;
-
-	char a[30];
 	char b;
-	cout << "Количество записей? (максимум 7): ";
-	do {
-		cin >> n;
-		if (n>7) {
-			cout << "Вы ввели больше 7, введите число, меньше 7: ";
-		}
-	} while (n>7);
 
-	cout << "\n\n";
 
-	//Ввод записей
-	for (i = 0; i<n; i++) {
-		cout << "Введите название пункта назначения рейса : ";
-		cin >> a;
-
-		int x; //счётчик
-		char sumbol; //символ
-
-		x = 0;
-		while (a[x]) {
-			sumbol = a[x]; //выдеделяём символ
-			b = (char)tolower(sumbol); //функция перевода регистров, из заглавной буквы в строчную
-			a[x] = b; //выделенному символу присваем строчный вид
-			x++;
-		}
-		//strcpy(A[i].name, a);
-		A[i].set_name(a);
-
-		cout << "Введите номер рейса: ";
-		//cin >> A[i].number;
-		cin >> a;
-		A[i].set_number(a);
-		cout << "Введите тип самолёта: ";
-		cin >> a;
-
-		x = 0;
-		while (a[x]) {
-			sumbol = a[x]; //выдеделяём символ
-			b = (char)tolower(sumbol); //переводим его в строчный вид
-			a[x] = b; //выделенному символу присваем строчный вид
-			x++;
-		}
-		//strcpy(A[i].type, a);
-		A[i].set_type(a);
+	cout << "|1|\tВвести данные с клавиатуры\n|2|\tСчитать данные из файла\n\n";
+	int swtch = 1;
+	cin >> swtch;
+	switch (swtch)
+	{
+	case 1:
+	{
+		cout << "Количество записей? (максимум 7): ";
+		do {
+			cin >> n;
+			if (n>7) {
+				cout << "Вы ввели больше 7, введите число, меньше 7: ";
+			}
+		} while (n>7);
 		cout << "\n\n";
+
+		//Ввод записей
+		for (i = 0; i<n; i++) {
+			cout << "Введите название пункта назначения рейса : ";
+			cin >> a;
+			to_low(a);
+			A[i].set_name(a);
+
+			cout << "Введите номер рейса: ";
+			cin >> a;
+			A[i].set_number(a);
+
+			cout << "Введите тип самолёта: ";
+			cin >> a;
+			to_low(a);
+			A[i].set_type(a);
+			cout << "\n\n";
+		}
+
+		//сортировка по номеру рейса
+		qsort(A, n, sizeof(aeroflot), aeroflot::cmp);
+
+		//запись в файл
+		cout << "Записать данные в файл? 1 -> ДА, 2 -> НЕТ ";
+		int chois = 0;
+		cin >> chois;
+		if (chois == 1)
+		{
+			ofstream fout;
+			fout.open(path, ofstream::out);
+			if (!fout.is_open())
+			{
+				cout << "Ошибка открытия файла!" << endl;
+			}
+			else
+			{
+				cout << "Файл открыт!" << endl;
+				for (int i = 0; i < n; i++)
+				{
+					fout.write((char*)&A[i], sizeof(aeroflot));
+				}
+			}
+			fout.close();
+			system("File.txt");
+		}
+		break;
 	}
-
-
-	qsort(A, n, sizeof(aeroflot), aeroflot::cmp);
-
+	case 2:
+	{
+		//считывание данных из файла
+		ifstream fin;
+		fin.open(path);
+		if (!fin.is_open())
+		{
+			cout << "Ошибка открытия файла!" << endl;
+		}
+		else
+		{
+			cout << "Файл открыт!" << endl;
+			i = 0;
+			while (fin.read((char*)&A[i], sizeof(aeroflot)))
+			{
+				//A[i].Print();
+				i++;
+			}
+			n = i;
+		}
+		fin.close();
+		system("File.txt");
+		break;
+	}
+	default:
+		break;
+	}
 
 	//Вывод записей
 	cout << "Вывод записей на экран \n";
-	for (i = 0; i<n; i++) {
-		cout << A[i].get_name()/*A[i].name*/ <<
-			" " << A[i].get_number() <<
-			" " << A[i].get_type() << "\n\n";
-	}
+	for (i = 0; i<n; i++)
+		A[i].Print();
 
 	//Вывод записей определённого типа самолёта
 	cout << "Введите тип самолёта: ";
 	cin >> type;
+	to_low(type);
 
-	int x = 0;
-	char character;
-
-	while (type[x]) {
-		character = type[x]; //выдеделяём символ
-		b = (char)tolower(character); //переводим его в строчный вид
-		type[x] = b; //выделенному символу присваем строчный вид
-		x++;
-	}
-
-	cout << "Вывод номер рейсов и пунктов назначение, обслуживаемых типом " <<
-		type << "\n";
+	cout << "Вывод номер рейсов и пунктов назначение, обслуживаемых типом " << type << "\n";
 	for (i = 0; i<n; i++) {
 		if (strcmp(A[i].get_type(), type) == 0) {
-			cout << A[i].get_name()/*A[i].name*/ << setw(11) << A[i].get_number() << endl;
+			A[i].Print();
 			kol++;
 		}
 	}
-	if (kol == 0) {
-		cout << "Таких записей нет \n";
-	}
+	if (kol == 0) cout << "Таких записей нет \n";
+	delete[] A;
 	system("pause");
 }
