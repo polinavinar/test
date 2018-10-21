@@ -6,10 +6,32 @@
 
 using namespace std;
 class aeroflot {
-public:
-	char name[30]; //название рейса
+private:
+	char name[30];
 	char number[10];
 	char type[30];
+public:
+	aeroflot() { name[0] = '\0'; number[0] = '\0'; type[0] = '\0'; }
+
+	void set_name(char *_name) {
+		strcpy(name, _name);
+	}
+	void set_number(char *_number) {
+		strcpy(number, _number);
+	}
+	void set_type(char *_type) {
+		strcpy(type, _type);
+	}
+
+	char* get_name() {
+		return name;
+	}
+	char* get_number() {
+		return number;
+	}
+	char* get_type() {
+		return type;
+	}
 
 	static int cmp(const void * a, const void * b)
 	{
@@ -51,11 +73,13 @@ int main() {
 			a[x] = b; //выделенному символу присваем строчный вид
 			x++;
 		}
-		strcpy(A[i].name, a);
+		//strcpy(A[i].name, a);
+		A[i].set_name(a);
 
 		cout << "Введите номер рейса: ";
-		cin >> A[i].number;
-
+		//cin >> A[i].number;
+		cin >> a;
+		A[i].set_number(a);
 		cout << "Введите тип самолёта: ";
 		cin >> a;
 
@@ -66,7 +90,8 @@ int main() {
 			a[x] = b; //выделенному символу присваем строчный вид
 			x++;
 		}
-		strcpy(A[i].type, a);
+		//strcpy(A[i].type, a);
+		A[i].set_type(a);
 		cout << "\n\n";
 	}
 
@@ -77,9 +102,9 @@ int main() {
 	//Вывод записей
 	cout << "Вывод записей на экран \n";
 	for (i = 0; i<n; i++) {
-		cout << A[i].name <<
-			" " << A[i].number <<
-			" " << A[i].type << "\n\n";
+		cout << A[i].get_name()/*A[i].name*/ <<
+			" " << A[i].get_number() <<
+			" " << A[i].get_type() << "\n\n";
 	}
 
 	//Вывод записей определённого типа самолёта
@@ -99,8 +124,8 @@ int main() {
 	cout << "Вывод номер рейсов и пунктов назначение, обслуживаемых типом " <<
 		type << "\n";
 	for (i = 0; i<n; i++) {
-		if (strcmp(A[i].type, type) == 0) {
-			cout << A[i].name << setw(11) << A[i].number << endl;
+		if (strcmp(A[i].get_type(), type) == 0) {
+			cout << A[i].get_name()/*A[i].name*/ << setw(11) << A[i].get_number() << endl;
 			kol++;
 		}
 	}
