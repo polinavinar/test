@@ -79,6 +79,7 @@ void bsort(list<aeroflot>& A, int size) {
 	} while (n);
 }
 
+
 int main() {
 	setlocale(LC_ALL, "Russian");
 	string path = "File.txt";
