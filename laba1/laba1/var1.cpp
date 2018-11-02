@@ -6,6 +6,7 @@
 #include <cstring>
 #include "List.h"
 
+
 using namespace std;
 
 class aeroflot {
