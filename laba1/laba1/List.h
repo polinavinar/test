@@ -1,4 +1,6 @@
 #pragma once
+
+
 template<typename T>
 struct node {//элемент списка
 	T _data; // значенеи элемента
@@ -8,12 +10,13 @@ struct node {//элемент списка
 
 
 #include <iostream>
+#include <cstring>
 
 template<typename T>
 class list {
 private:
 	node<T> *_head; //начало списка
-	node<T> *_tail; //конец списка
+	node<T> *_tail; //начало списка
 	int _size; //размер
 public:
 	list();//конструктор
@@ -23,9 +26,9 @@ public:
 	T operator[](int index)const;//получение i-го элемента
 	T & operator[](int index);//получение i-го элемента
 	template<typename U>
-	friend std::ostream& operator <<(std::ostream& out, const list<U>& l); //вывод стека на экран
+	friend std::ostream& operator <<(std::ostream& out, const list<U>& l); //вывод списка на экран
 	template<typename U>
-	friend std::istream& operator >>(std::istream& in, list<U>& l); //вввод элемента стека
+	friend std::istream& operator >>(std::istream& in, list<U>& l); //вввод элементов списка
 	void PrintRangeBy(const char *type);
 	~list(); //деструктор
 };
@@ -108,7 +111,14 @@ T & list<T>::operator[](int index) {
 	return buf->_data;
 }
 
-
+template<typename T>
+T list<T>::operator[](int index)const {
+	node<T> *buf = _head;
+	for (int i = 0; i < _size && i < index; ++i) { //ищем нужный элемент
+		buf = buf->_next;
+	}
+	return buf->_data;
+}
 
 template<typename T>
 std::ostream& operator <<(std::ostream& out, const list<T>& l) {
@@ -134,3 +144,5 @@ list<T>::~list() { //деструктор
 		delete buf;//удаляем предыдущий
 	}
 }
+
+
