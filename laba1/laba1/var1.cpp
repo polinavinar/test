@@ -1,11 +1,10 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
+
 #include <fstream>
 #include <iomanip>
 #include <stdlib.h>
-#include <cstring>
-#include "List.h"
 
+#include "List.h"
 
 using namespace std;
 
@@ -24,7 +23,6 @@ public:
 	bool operator==(const aeroflot& a) const {
 		return strcmp(a.name, name) == 0 && strcmp(a.number, number) == 0 && strcmp(a.type, type) == 0;
 	}
-
 	void set_name(char *_name) {
 		strcpy(name, _name);
 	}
@@ -86,7 +84,6 @@ void bsort(list<aeroflot>& A, int size) {
 	} while (n);
 }
 
-
 int main() {
 	setlocale(LC_ALL, "Russian");
 	string path = "File.txt";
@@ -117,7 +114,6 @@ int main() {
 
 		//Ввод записей
 		for (i = 0; i<n; i++) {
-
 			cout << "Введите название пункта назначения рейса\n";
 			cout << "Введите номер рейса\n";
 			cout << "Введите тип самолёта\n";
