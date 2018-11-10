@@ -146,10 +146,7 @@ int main() {
 			{
 				cout << "Файл открыт!" << endl;
 				fout << n << '\n';
-				for (int i = 0; i < n; i++)
-				{
-					fout << A[i].get_name() << ' ' << A[i].get_number() << ' ' << A[i].get_type() << '\n';
-				}
+				fout << A;
 			}
 			fout.close();
 			system("File.txt");
@@ -173,14 +170,7 @@ int main() {
 			for (i = 0; i < n; ++i)
 			{
 				aeroflot temp;
-
-				char t[30];
-				fin >> t;
-				temp.set_name(t);
-				fin >> t;
-				temp.set_number(t);
-				fin >> t;
-				temp.set_type(t);
+				fin >> temp;
 				A.add(temp);
 			}
 		}
