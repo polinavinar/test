@@ -24,6 +24,7 @@ public:
 	bool operator==(const aeroflot& a) const {
 		return strcmp(a.name, name) == 0 && strcmp(a.number, number) == 0 && strcmp(a.type, type) == 0;
 	}
+
 	void Print() {
 		std::cout << name << "\t" << number << "\t" << type << "\n\n";
 	}
@@ -63,7 +64,15 @@ void to_low(char mas[]) {
 		x++;
 	}
 }
-
+void search(list<aeroflot>& A, int size)
+{
+	char type[30];
+	for (int i = 0; i<size; i++) {
+		if (strcmp(A[i].get_type(), type) == 0) {
+			A[i].Print();
+		}
+	}
+}
 void bsort(list<aeroflot>& A, int size) {
 	int j, n = size;
 	do {
@@ -205,12 +214,8 @@ int main() {
 	to_low(type);
 
 	cout << "Вывод номер рейсов и пунктов назначение, обслуживаемых типом " << type << "\n";
-	for (i = 0; i<n; i++) {
-		if (strcmp(A[i].get_type(), type) == 0) {
-			A[i].Print();
-			kol++;
-		}
-	}
+	search(A, n);
+	A[i].Print();
 	if (kol == 0) cout << "Таких записей нет \n";
 	system("pause");
 }

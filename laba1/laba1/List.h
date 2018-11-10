@@ -13,7 +13,7 @@ template<typename T>
 class list {
 private:
 	node<T> *_head; //начало списка
-	node<T> *_tail; //начало списка
+	node<T> *_tail; //конец списка
 	int _size; //размер
 public:
 	list();//конструктор
@@ -95,14 +95,14 @@ T & list<T>::operator[](int index) {
 	return buf->_data;
 }
 
-template<typename T>
-T list<T>::operator[](int index)const {
-	node<T> *buf = _head;
-	for (int i = 0; i < _size && i < index; ++i) { //ищем нужный элемент
-		buf = buf->_next;
-	}
-	return buf->_data;
-}
+//template<typename T>
+//T list<T>::operator[](int index)const {
+//	node<T> *buf = _head;
+//	for (int i = 0; i < _size && i < index; ++i) { //ищем нужный элемент
+//		buf = buf->_next;
+//	}
+//	return buf->_data;
+//}
 
 template<typename T>
 std::ostream& operator <<(std::ostream& out, const list<T>& l) {
