@@ -25,9 +25,6 @@ public:
 		return strcmp(a.name, name) == 0 && strcmp(a.number, number) == 0 && strcmp(a.type, type) == 0;
 	}
 
-	void Print() {
-		std::cout << name << "\t" << number << "\t" << type << "\n\n";
-	}
 	void set_name(char *_name) {
 		strcpy(name, _name);
 	}
@@ -52,6 +49,15 @@ public:
 	{
 		return strcmp(a.number, b.number);
 	}
+	friend istream& operator >> (istream& in, aeroflot& a) {
+		in >> a.name >> a.number >> a.type;
+		return in;
+	}
+
+	friend ostream& operator << (ostream& out, const aeroflot& a) {
+		out << a.name << "\t" << a.number << "\t" << a.type << "\n\n";
+		return out;
+	}
 };
 
 void to_low(char mas[]) {
@@ -64,15 +70,7 @@ void to_low(char mas[]) {
 		x++;
 	}
 }
-void search(list<aeroflot>& A, int size)
-{
-	char type[30];
-	for (int i = 0; i<size; i++) {
-		if (strcmp(A[i].get_type(), type) == 0) {
-			A[i].Print();
-		}
-	}
-}
+
 void bsort(list<aeroflot>& A, int size) {
 	int j, n = size;
 	do {
@@ -120,21 +118,12 @@ int main() {
 		//Ввод записей
 		for (i = 0; i<n; i++) {
 
-			cout << "Введите название пункта назначения рейса : ";
-			cin >> a;
-			aeroflot temp;
-			to_low(a);
-			temp.set_name(a);
-
-			cout << "Введите номер рейса: ";
-			cin >> a;
-			temp.set_number(a);
-
-			cout << "Введите тип самолёта: ";
-			cin >> a;
-			to_low(a);
-			temp.set_type(a);
+			cout << "Введите название пункта назначения рейса\n";
+			cout << "Введите номер рейса\n";
+			cout << "Введите тип самолёта\n";
 			cout << "\n\n";
+			aeroflot temp;
+			cin >> temp;
 			A.add(temp);
 		}
 
@@ -206,7 +195,6 @@ int main() {
 	//Вывод записей
 	cout << "Вывод записей на экран \n";
 	for (i = 0; i<n; i++)
-		A[i].Print();
 
 	//Вывод записей определённого типа самолёта
 	cout << "Введите тип самолёта: ";
@@ -214,8 +202,11 @@ int main() {
 	to_low(type);
 
 	cout << "Вывод номер рейсов и пунктов назначение, обслуживаемых типом " << type << "\n";
-	search(A, n);
-	A[i].Print();
+	for (i = 0; i<n; i++) {
+		if (strcmp(A[i].get_type(), type) == 0) {
+			kol++;
+		}
+	}
 	if (kol == 0) cout << "Таких записей нет \n";
 	system("pause");
 }
