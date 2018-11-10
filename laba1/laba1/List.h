@@ -26,11 +26,24 @@ public:
 	friend std::ostream& operator <<(std::ostream& out, const list<U>& l); //вывод стека на экран
 	template<typename U>
 	friend std::istream& operator >>(std::istream& in, list<U>& l); //вввод элемента стека
+	void PrintRangeBy(const char *type);
 	~list(); //деструктор
 };
 
 template<typename T>
 list<T>::list<T>() : _head(nullptr), _tail(nullptr), _size(0) {
+}
+
+template<typename T>
+void list<T>::PrintRangeBy(const char *type) {
+	bool flag = true;
+	for (int i = 0; i < _size; i++) {
+		if (std::strcmp((*this)[i].get_type(), type) == 0) {
+			std::cout << (*this)[i];
+			flag = false;
+		}
+	}
+	if (flag) std::cout << "Таких записей нет \n";
 }
 
 template<typename T>
